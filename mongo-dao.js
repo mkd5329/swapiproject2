@@ -122,7 +122,6 @@ module.exports.findCharactersByFilm = function(filmId, callback){
         
         let element = characters[i];
             
-        console.log(element);
         col = dbPool.collection("characters");
 
         let d2Promise = col.findOne({"id":+element.character_id});
