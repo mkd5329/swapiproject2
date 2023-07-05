@@ -129,7 +129,6 @@ module.exports.findCharactersByFilm = function(filmId, callback){
 
         d2Promise.then( (foundCharacter) => {
             charList.push(foundCharacter);
-            console.log(charList.length);
 
             if(i == characters.length-1){
                 callback(null,charList);
