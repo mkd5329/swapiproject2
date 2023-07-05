@@ -123,7 +123,7 @@ module.exports.findCharactersByFilm = function(filmId, callback){
         let element = characters[i];
             
         console.log(element);
-        col = dbPool.collection("characters");
+        col = dbPool.collection("character");
 
         let d2Promise = col.findOne({"id":+element.character_id});
 
@@ -140,3 +140,34 @@ module.exports.findCharactersByFilm = function(filmId, callback){
     }
     );
 };
+// /api/films/:id/planets
+// films: id
+// films_planets: film_id, planet_id
+module.exports.findPlanetByFilm = function(filmsId, callback){
+    // a list of planets ids
+const planetList = []
+    let col = dbPool.collection("films_planets");
+    let dPromise = col.find({"film_id":  + filmsId})
+    .toArray();
+    dPromise.then((planets)=>{
+        
+        for(let i = 0; i< planets.length; i++){
+            element = planets[i]
+            col = dbPool.collection("planets");
+            let d2Promise = col.findOne({"id":+ element.planet_id});
+            
+            d2Promise.then( (foundPlanet) => {
+                planetList.push(foundPlanet);
+                console.log(planetList.length);
+    
+                if(i == planets.length-1){
+                    callback(null,planetList);
+                }
+            });
+        
+        }
+    });
+
+
+
+}
