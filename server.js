@@ -48,6 +48,18 @@ app.listen(port, () => {
     })
   });
 
+  app.get('/api/planets/:id/characters',(req, res,next ) =>{
+    dao.findCharactersByPlanet(req.params.id,(errMessage, data) =>{ 
+      res.send(data);
+    })
+  })
+
+  app.get('/api/films/:id/characters',(req, res,next ) =>{
+    dao.findCharactersByFilm(req.params.id,(errMessage, data) =>{ 
+      res.send(data);
+    })
+  })
+
   app.get('/api/films/:id', (req, res, next)=>{
     dao.findCharacter(req.params.id, (err, film) =>{
       res.send(film);
