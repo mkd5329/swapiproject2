@@ -2,12 +2,14 @@ const express = require('express')
 const dao = require("./mongo-dao");
 const app = express()
 const port = 3007;
+const cors = require('cors');
 //app.use((req, res, next) => {
 //  console.log('Time:', Date.now())
 //  next()
 //})
 
 app.use(express.json());
+app.use(cors());
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)

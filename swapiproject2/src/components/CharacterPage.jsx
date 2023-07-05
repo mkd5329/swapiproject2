@@ -10,11 +10,10 @@ function CharacterPage (){
     .then(response => response.json())
     .then(data => {setCharacterData(data);  console.log(data);});
     console.log(characterData);
+    console.log("test test");
 }, []);
 
 
-
-console.log(this.match.props.params);
     return(
         
         <>
