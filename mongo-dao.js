@@ -8,27 +8,21 @@ async function startup() {
     await client.connect();
     var db = client.db("swapi");
     dbPool= db;
-    console.log("done with conn");
+    
 }
 startup();
 
-console.log("continue");
 
 //retrieve all planents
 module.exports.findAllPlanets = function( callback){
     //console.log(dbPool.collection("planets"));
-    console.log("first");
     data = 'response from findAllPLants';
     let col = dbPool.collection("planets");
-    console.log("second");
     let dPromise = col.find().toArray();
-    console.log("third");
     dPromise.then((planets)=> {
-        console.log("all good");
         callback(null, planets);
     }
     );
-    console.log("fourth");
 
 };
 

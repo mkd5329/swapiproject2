@@ -15,10 +15,7 @@ app.listen(port, () => {
 
 
   app.get('/api/planets',(req, res,next ) =>{
-    console.log("route hit");
-    dao.findAllPlanets((errMessage, data) =>{
-      console.log("aaa");
-      console.log(data);  
+    dao.findAllPlanets((errMessage, data) =>{ 
       res.send(data);
 
     })
