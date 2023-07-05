@@ -1,7 +1,7 @@
 const express = require('express')
 const dao = require("./mongo-dao");
 const app = express()
-const port = 3000;
+const port = 3007;
 //app.use((req, res, next) => {
 //  console.log('Time:', Date.now())
 //  next()
@@ -21,17 +21,37 @@ app.listen(port, () => {
     })
   })
 
-  app.get("/api/planets/:id", (req, res) =>{
+  app.get("/api/planets/:id", (req, res, next) =>{
     dao.findPlanet(req.params.id, (err, planet) =>{
-      if(planet !== undefined){
-        // we have planet
-        console.log("index.js single planet: " + req.params.id);
-        res.send(planet);
-      }else{
-        res.statusCode = 404;
-        res.end();
-      }
-    });
+       res.send(planet);
+      
+    })
   });
+
+  app.get('/api/characters',(req, res,next ) =>{
+    dao.findAllCharacters((errMessage, data) =>{ 
+      res.send(data);
+
+    })
+  });
+
+  app.get('/api/characters/:id', (req, res, next)=>{
+    dao.findCharacter(req.params.id, (err, character) =>{
+      res.send(character);
+    })
+  })
+
+  app.get('/api/films',(req, res,next ) =>{
+    dao.findAllFilms((errMessage, data) =>{ 
+      res.send(data);
+
+    })
+  });
+
+  app.get('/api/films/:id', (req, res, next)=>{
+    dao.findCharacter(req.params.id, (err, film) =>{
+      res.send(film);
+    })
+  })
 
   
