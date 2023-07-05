@@ -231,4 +231,4 @@ const planetList = []
             });
         
         }
-    });
+    });}
