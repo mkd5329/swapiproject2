@@ -59,6 +59,12 @@ app.listen(port, () => {
       res.send(data);
     })
   })
+  app.get('/api/characters/:id/films',(req, res,next ) =>{
+    dao.findFilmsByCharacter(req.params.id,(errMessage, data) =>{ 
+      //console.log("returning data");
+      res.send(data);
+    })
+  })
 
   app.get('/api/films/:id', (req, res, next)=>{
     dao.findCharacter(req.params.id, (err, film) =>{

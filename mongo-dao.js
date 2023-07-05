@@ -138,3 +138,35 @@ module.exports.findCharactersByFilm = function(filmId, callback){
     }
     );
 };
+
+module.exports.findFilmsByCharacter = function(characterId, callback){
+    //console.log(dbPool.collection("planets"));
+    let col = dbPool.collection("films_characters");
+    
+    let dPromise = col.find({"character_id" : +characterId}).toArray();
+    // we now have a list of character ids
+    let filmList = [];
+
+    dPromise.then((films)=> {
+       // callback(null, characters);
+    
+       for( let i = 0; i < films.length; i++){
+        
+        let element = films[i];
+            
+        col = dbPool.collection("films");
+
+        let d2Promise = col.findOne({"id":+element.film_id});
+
+        d2Promise.then( (foundCharacter) => {
+            filmList.push(foundCharacter);
+
+            if(i == films.length-1){
+                callback(null,filmList);
+            }
+        }
+        );
+    }
+    }
+    );
+};
