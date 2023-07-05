@@ -42,6 +42,8 @@ app.listen(port, () => {
 
   app.get('/api/films/:id/characters',(req, res,next ) =>{
     dao.findCharactersByFilm(req.params.id,(errMessage, data) =>{ 
+      console.log("dataaa");
+      console.log(data);
       res.send(data);
     })
   })

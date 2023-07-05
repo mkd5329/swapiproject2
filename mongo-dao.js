@@ -52,14 +52,39 @@ module.exports.findCharactersByPlanet = function(planetId, callback){
 
 };
 
-module.exports.findCharactersByFilm = function(planetId, callback){
+module.exports.findCharactersByFilm = function(filmId, callback){
     //console.log(dbPool.collection("planets"));
     let col = dbPool.collection("films_characters");
-    console.log(planetId);
-    let dPromise = col.find({"homeworld" : +planetId}).toArray();
-    dPromise.then((characters)=> {
-        callback(null, characters);
-    }
-    );
+    
+    let dPromise = col.find({"film_id" : +filmId}).toArray();
+    // we now have a list of character ids
+    let charList = [];
 
+    dPromise.then((characters)=> {
+       // callback(null, characters);
+
+       for( let i = 0; i < characters.length; i++){
+        
+        let element = characters[i];
+            
+        console.log(element);
+        col = dbPool.collection("characters");
+
+        let d2Promise = col.findOne({"id":+element.character_id});
+
+        d2Promise.then( (foundCharacter) => {
+            charList.push(foundCharacter);
+            console.log(charList.length);
+        }
+        );
+        console.log("moving on");
+        
+    }
+        console.log("done loading");
+    }
+    ).then( () =>{
+        console.log("sending back");
+        console.log(charList);
+        callback(null,charList);
+    });
 };
