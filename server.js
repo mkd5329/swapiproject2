@@ -56,8 +56,12 @@ app.listen(port, () => {
 
   app.get('/api/films/:id/characters',(req, res,next ) =>{
     dao.findCharactersByFilm(req.params.id,(errMessage, data) =>{ 
-      console.log("dataaa");
-      console.log(data);
+      res.send(data);
+    })
+  })
+  app.get('/api/characters/:id/films',(req, res,next ) =>{
+    dao.findFilmsByCharacter(req.params.id,(errMessage, data) =>{ 
+      //console.log("returning data");
       res.send(data);
     })
   })
@@ -71,6 +75,13 @@ app.listen(port, () => {
   app.get('/api/films/:id/planets', (req, res, next)=>{
     dao.findPlanetByFilm(req.params.id, (err, film) =>{
       res.send(film);
+    })
+  })
+
+
+  app.get('/api/planets/:id/films', (req, res, next)=>{
+    dao.findFilmsByPlanet(req.params.id, (err, data) =>{
+      res.send(data);
     })
   })
 

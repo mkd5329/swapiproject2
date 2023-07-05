@@ -123,13 +123,12 @@ module.exports.findCharactersByFilm = function(filmId, callback){
         let element = characters[i];
             
         console.log(element);
-        col = dbPool.collection("character");
+        col = dbPool.collection("characters");
 
         let d2Promise = col.findOne({"id":+element.character_id});
 
         d2Promise.then( (foundCharacter) => {
             charList.push(foundCharacter);
-            console.log(charList.length);
 
             if(i == characters.length-1){
                 callback(null,charList);
@@ -140,6 +139,72 @@ module.exports.findCharactersByFilm = function(filmId, callback){
     }
     );
 };
+
+module.exports.findFilmsByCharacter = function(characterId, callback){
+    //console.log(dbPool.collection("planets"));
+    let col = dbPool.collection("films_characters");
+    
+    let dPromise = col.find({"character_id" : +characterId}).toArray();
+    // we now have a list of character ids
+    let filmList = [];
+
+    dPromise.then((films)=> {
+       // callback(null, characters);
+    
+       for( let i = 0; i < films.length; i++){
+        
+        let element = films[i];
+            
+        col = dbPool.collection("films");
+
+        let d2Promise = col.findOne({"id":+element.film_id});
+
+        d2Promise.then( (foundCharacter) => {
+            filmList.push(foundCharacter);
+
+            if(i == films.length-1){
+                callback(null,filmList);
+            }
+        }
+        );
+    }
+    }
+    );
+}
+
+
+module.exports.findFilmsByPlanet = function(planetId, callback){
+    //console.log(dbPool.collection("planets"));
+    let col = dbPool.collection("films_planets");
+    
+    let dPromise = col.find({"planet_id" : +planetId}).toArray();
+    // we now have a list of character ids
+    let filmList = [];
+
+    dPromise.then((films)=> {
+       // callback(null, characters);
+    
+       for( let i = 0; i < films.length; i++){
+        
+        let element = films[i];
+            
+        col = dbPool.collection("films");
+
+        let d2Promise = col.findOne({"id":+element.film_id});
+
+        d2Promise.then( (foundCharacter) => {
+            filmList.push(foundCharacter);
+
+            if(i == films.length-1){
+                callback(null,filmList);
+            }
+        }
+        );
+    }
+    }
+    );
+}
+
 // /api/films/:id/planets
 // films: id
 // films_planets: film_id, planet_id
@@ -167,7 +232,3 @@ const planetList = []
         
         }
     });
-
-
-
-}
