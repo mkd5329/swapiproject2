@@ -1,26 +1,35 @@
-const mongodb = require("mongodb"); // mongo client library
-const url = "mongodb://localhost:27017/bookdb"; // change to api or planets
+const { MongoClient } = require("mongodb"); // mongo client library
+const url = "mongodb://localhost:27017/swapi"; // change to api or planets
 let dbPool; // database connection
 
-mongodb.MongoClient.connect(url, function(err, db){
-    if(err === null){
-        dbPool = db;
-    }else{
-        console.log("DB CONNECTION FAILED. Is database running?");
-    }
-});
+
+async function startup() {
+    let client = new MongoClient(url);
+    await client.connect();
+    var db = client.db("swapi");
+    dbPool= db;
+    console.log("done with conn");
+}
+startup();
+
+console.log("continue");
 
 //retrieve all planents
 module.exports.findAllPlanets = function( callback){
-    data = 'fresponse from findAllPLants';
-    let  col = dbPool.collection("planets");
-    col.find().toArray((err, planets)=> {
-        if(err ===null){
-            callback(null, planets);
-        }else{
-            callback("failed to find planets", undefined)
-        }
-    });
+    //console.log(dbPool.collection("planets"));
+    console.log("first");
+    data = 'response from findAllPLants';
+    let col = dbPool.collection("planets");
+    console.log("second");
+    let dPromise = col.find().toArray();
+    console.log("third");
+    dPromise.then((planets)=> {
+        console.log("all good");
+        callback(null, planets);
+    }
+    );
+    console.log("fourth");
+
 };
 
 //retrieve a single planents\
