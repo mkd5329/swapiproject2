@@ -72,4 +72,11 @@ app.listen(port, () => {
     })
   })
 
+
+  app.get('/api/planets/:id/films', (req, res, next)=>{
+    dao.findFilmsByPlanet(req.params.id, (err, data) =>{
+      res.send(data);
+    })
+  })
+
   

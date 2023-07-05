@@ -169,4 +169,37 @@ module.exports.findFilmsByCharacter = function(characterId, callback){
     }
     }
     );
-};
+}
+
+
+module.exports.findFilmsByPlanet = function(planetId, callback){
+    //console.log(dbPool.collection("planets"));
+    let col = dbPool.collection("films_planets");
+    
+    let dPromise = col.find({"planet_id" : +planetId}).toArray();
+    // we now have a list of character ids
+    let filmList = [];
+
+    dPromise.then((films)=> {
+       // callback(null, characters);
+    
+       for( let i = 0; i < films.length; i++){
+        
+        let element = films[i];
+            
+        col = dbPool.collection("films");
+
+        let d2Promise = col.findOne({"id":+element.film_id});
+
+        d2Promise.then( (foundCharacter) => {
+            filmList.push(foundCharacter);
+
+            if(i == films.length-1){
+                callback(null,filmList);
+            }
+        }
+        );
+    }
+    }
+    );
+}
