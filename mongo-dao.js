@@ -39,5 +39,27 @@ module.exports.findPlanet = function( callback){
     });
 };
 
+//retrieve all planents
+module.exports.findCharactersByPlanet = function(planetId, callback){
+    //console.log(dbPool.collection("planets"));
+    let col = dbPool.collection("characters");
+    console.log(planetId);
+    let dPromise = col.find({"homeworld" : +planetId}).toArray();
+    dPromise.then((characters)=> {
+        callback(null, characters);
+    }
+    );
 
+};
 
+module.exports.findCharactersByFilm = function(planetId, callback){
+    //console.log(dbPool.collection("planets"));
+    let col = dbPool.collection("films_characters");
+    console.log(planetId);
+    let dPromise = col.find({"homeworld" : +planetId}).toArray();
+    dPromise.then((characters)=> {
+        callback(null, characters);
+    }
+    );
+
+};
